@@ -1,6 +1,5 @@
-# Constants for colors
-BLACK = 1
-WHITE = 2
+# Basic functions of othello
+from othello_constants import *
 # Constants for directions
 UP = (-1, 0)
 UP_RIGHT = (-1, 1)
@@ -42,7 +41,8 @@ def finish_game(board):
         print("Draw")
 
 
-def print_choices(board, move_coords):
+def print_choices(board, valid_moves):
+    move_coords = [valid_move["coordinate"] for valid_move in valid_moves]
     for i, rows in enumerate(board):
         for j, cell in enumerate(rows):
             if (i, j) in move_coords:
@@ -58,7 +58,9 @@ def print_choices(board, move_coords):
         print()
 
 
-def get_choice(move_coords, valid_moves, color):
+def get_choice(valid_moves, color):
+    move_coords = [valid_move["coordinate"] for valid_move in valid_moves]
+
     choice = input()
     j = ord(choice[0]) - ord('a')
     i = ord(choice[1]) - ord('0')
@@ -67,7 +69,7 @@ def get_choice(move_coords, valid_moves, color):
         return valid_moves[move_coords.index((i, j))]
     else:
         print("That is not a valid move")
-        return get_choice(move_coords, valid_moves, color)
+        return get_choice(valid_moves, color)
 
 
 def enemy_color(color):

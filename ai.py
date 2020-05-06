@@ -1,22 +1,26 @@
+# Naive and Minimax AI for othello
 import copy
 from base_game import enemy_color, get_valid_moves, make_move
+import ai_gui
 
 g_depth = None
 g_move_num = None
+g_show_steps = False
 
 
-def ai_init(depth):
-    global g_depth
+def init(depth, show_steps):
+    global g_depth, g_show_steps
     g_depth = depth
+    g_show_steps = show_steps
 
 
-def ai_start(move_num):
+def start(move_num):
     global g_move_num
     g_move_num = move_num
 
 
 # Returns the first available
-def naive_ai(valid_moves):
+def naive(valid_moves):
     return valid_moves[0]
 
 
@@ -39,6 +43,10 @@ def minimax(board, cur_minimax_color):
             score = evaluator(cur_board, cur_minimax_color)
             return score, None
 
+        if g_show_steps:
+            ai_gui.add_minimax_board(cur_board, cur_depth - g_move_num, False)
+
+        is_pruned = False
         if isMax:
             alpha_move = valid_moves[0]
             for i, move in enumerate(valid_moves):
@@ -50,8 +58,13 @@ def minimax(board, cur_minimax_color):
                 if cur_score > alpha:
                     alpha = cur_score
                     alpha_move = move
-                if beta <= alpha:
-                    return cur_score, None
+                if beta <= alpha or is_pruned:
+                    is_pruned = True
+                    print("Cutted Max")
+                    # if g_show_steps:
+                    #     ai_gui.add_minimax_board(board_copy, cur_depth - g_move_num+1, True)
+                    continue
+                    # return cur_score, None
             return alpha, alpha_move
         else:
             beta_move = valid_moves[0]
@@ -64,11 +77,22 @@ def minimax(board, cur_minimax_color):
                 if beta > cur_score:
                     beta = cur_score
                     beta_move = move
-                if beta <= alpha:
-                    return cur_score, None
+                if beta <= alpha or is_pruned:
+                    is_pruned = True
+                    print("Cutted Min")
+                    # if g_show_steps:
+                    #     ai_gui.add_minimax_board(board_copy, cur_depth - g_move_num+1, True)
+                    continue
+                    # return cur_score, None
             return beta, beta_move
+
+    if g_show_steps:
+        ai_gui.init()
+
     best_score, best_move = _minimax(copy.deepcopy(board), cur_minimax_color, g_move_num, True, float("-inf"),
                                      float("inf"), g_depth + g_move_num)
+    if g_show_steps:
+        ai_gui.finish_board()
     return best_move
 
 
