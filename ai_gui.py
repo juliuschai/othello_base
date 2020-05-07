@@ -32,12 +32,14 @@ def init():
     g_canvas.pack(side=LEFT, expand=True, fill=BOTH)
 
 
+debug_index = 0
+
 def add_minimax_board(board, level, is_pruned):
-    global g_board_size
+    global g_board_size, debug_index
+    debug_index += 1
     level += 1
-    print(level)
-    xOffset = 9 * g_tile_size
-    yOffset = 9 * g_tile_size
+    xOffset = (g_board_size+1) * g_tile_size
+    yOffset = (g_board_size+1) * g_tile_size
     if level == 1:
         g_board_size = len(board)
         minimax_coords[level] = 0
@@ -45,16 +47,18 @@ def add_minimax_board(board, level, is_pruned):
     # If index out of range
     elif len(minimax_coords) < level:
         minimax_coords[level] = minimax_coords[level-1]
-        draw_board(board, minimax_coords[level], yOffset*level, is_pruned)
+        draw_board(board, minimax_coords[level], yOffset*(level-1), is_pruned)
     else:
         minimax_coords[level] = minimax_coords[level] + xOffset
-        for i in range(level-1, 0, -1):
-            minimax_coords[i] = minimax_coords[i + 1]
-        draw_board(board, minimax_coords[level], yOffset*level, is_pruned)
+        for i in range(level, 1, -1):
+            minimax_coords[i-1] = minimax_coords[i]
+        if is_pruned:
+            for i in range(level, len(minimax_coords)+1):
+                minimax_coords[i+1] = minimax_coords[i]
+        draw_board(board, minimax_coords[level], yOffset*(level-1), is_pruned)
 
 
 def draw_board(board, start_x, start_y, is_pruned):
-    print(minimax_coords)
     # Start drawing board
     board_color = 'DARKGREEN' if is_pruned is False else 'DARKRED'
     g_canvas.create_rectangle(

@@ -93,8 +93,10 @@ def get_valid_moves(board, color):
 
 def make_move(board, valid_move, color):
     def flip_direction(i, j, dir_tuple, player_color):
-
         diffI, diffJ = dir_tuple
+        # Place starting piece
+        board[i][j] = player_color
+        i, j = move_over(i, j, diffI, diffJ)
         # Filp  until finding the same colored piece
         while is_in_range(i, j):
             if board[i][j] == player_color:
@@ -133,6 +135,8 @@ def check_valid_move(board, color, coordinate):
             while is_in_range(i, j):
                 if board[i][j] == color:
                     same_color_found = True
+                    break
+                elif board[i][j] != enemy_color(color):
                     break
                 i, j = move_over(i, j, diffI, diffJ)
                 count += 1

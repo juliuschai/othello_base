@@ -46,7 +46,6 @@ def minimax(board, cur_minimax_color):
         if g_show_steps:
             ai_gui.add_minimax_board(cur_board, cur_depth - g_move_num, False)
 
-        is_pruned = False
         if isMax:
             alpha_move = valid_moves[0]
             for i, move in enumerate(valid_moves):
@@ -58,13 +57,12 @@ def minimax(board, cur_minimax_color):
                 if cur_score > alpha:
                     alpha = cur_score
                     alpha_move = move
-                if beta <= alpha or is_pruned:
-                    is_pruned = True
-                    print("Cutted Max")
-                    # if g_show_steps:
-                    #     ai_gui.add_minimax_board(board_copy, cur_depth - g_move_num+1, True)
-                    continue
-                    # return cur_score, None
+                if beta <= alpha:
+                    if g_show_steps and len(valid_moves)-1 > i:
+                        board_copy2 = copy.deepcopy(cur_board)
+                        make_move(board_copy2, valid_moves[i+1], cur_color)
+                        ai_gui.add_minimax_board(board_copy2, cur_depth - g_move_num + 1, True)
+                    return alpha, alpha_move
             return alpha, alpha_move
         else:
             beta_move = valid_moves[0]
@@ -77,13 +75,13 @@ def minimax(board, cur_minimax_color):
                 if beta > cur_score:
                     beta = cur_score
                     beta_move = move
-                if beta <= alpha or is_pruned:
-                    is_pruned = True
-                    print("Cutted Min")
-                    # if g_show_steps:
-                    #     ai_gui.add_minimax_board(board_copy, cur_depth - g_move_num+1, True)
-                    continue
-                    # return cur_score, None
+                if beta <= alpha:
+                    # Go to next node
+                    if g_show_steps and len(valid_moves)-1 > i:
+                        board_copy2 = copy.deepcopy(cur_board)
+                        make_move(board_copy2, valid_moves[i+1], cur_color)
+                        ai_gui.add_minimax_board(board_copy2, cur_depth - g_move_num + 1, True)
+                    return beta, beta_move
             return beta, beta_move
 
     if g_show_steps:
