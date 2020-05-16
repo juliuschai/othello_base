@@ -46,6 +46,8 @@ def init(board):
     g_canvas.config(scrollregion=g_canvas.bbox("all"))
     g_root.bind('<Button-1>', click)  # 1 = LEFT  mouse button.
     g_root.bind('<Button-3>', click)  # 3 = RIGHT mouse button.
+    g_root.call('wm', 'attributes', '.', '-topmost', True)
+
 
 
 def refresh_board(board, valid_moves, cur_color):

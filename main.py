@@ -7,12 +7,12 @@ import othello_board
 print("Input board size")
 g_board_size = int(input())
 g_board_size = g_board_size//2*2
-# g_board_size = 8
+# g_board_size = 4
 base_game_init(g_board_size)
 
 print("Input maximum depth for minimax value")
 g_depth = int(input())
-# g_depth = 5
+# g_depth = 12
 
 print("Show Minimax AI steps/paths? (Y/N)")
 show_ai_steps = True if input() in ["Y", "YES", "y", "Yes"] else False
@@ -32,6 +32,7 @@ g_board[mid][mid] = BLACK
 cur_color = WHITE
 g_move_num = 0
 agent = {WHITE: "Player", BLACK: "Minimax"}  # Naive, Player, Minimax
+# agent = {WHITE: "Minimax", BLACK: "Player"}  # Naive, Player, Minimax
 othello_board.init(g_board)
 while True:
     g_move_num += 1
@@ -54,6 +55,7 @@ while True:
     elif agent[cur_color] == "Minimax":
         print("Minimax AI Move")
         ai.start(g_move_num)
+        print("color: ", cur_color)
         valid_move = ai.minimax(g_board, cur_color)
     else:
         print("Player Move")

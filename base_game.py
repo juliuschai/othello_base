@@ -22,6 +22,15 @@ def base_game_init(board_size):
     g_board_choices = [["%c%d " % (g_alphabet_list[i], j) for i in range(g_board_size)] for j in range(g_board_size)]
 
 
+def evaluator(board, color):
+    cur_score = 0
+    for row in board:
+        for cell in row:
+            if cell == color:
+                cur_score += 1
+    return cur_score
+
+
 def finish_game(board):
     print('No more moves is available. Game is finished')
     black_count = 0

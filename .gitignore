@@ -2,3 +2,4 @@
 /workspace.xml
 /venv
 __pycache__/main.cpython-38.pyc
+*.mp4
