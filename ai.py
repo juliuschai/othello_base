@@ -32,19 +32,22 @@ def minimax(board, cur_minimax_color):
             ai_gui.add_minimax_board(cur_board, cur_depth - g_move_num, isMax, False)
         if max_depth == cur_depth:
             score = evaluator(cur_board, cur_minimax_color)
-            ai_gui.add_score(score, cur_depth - g_move_num + 1, isMax)
+            if g_show_steps:
+                ai_gui.add_score(score, cur_depth - g_move_num + 1, isMax)
             return score, None
 
         valid_moves = get_valid_moves(cur_board, cur_color)
         if len(valid_moves) == 0:
             if parent_has_no_moves:
                 score = evaluator(cur_board, cur_minimax_color)
-                ai_gui.add_score(score, cur_depth - g_move_num + 1, isMax)
+                if g_show_steps:
+                    ai_gui.add_score(score, cur_depth - g_move_num + 1, isMax)
             else:
                 score, move = _minimax(
                     copy.deepcopy(cur_board), enemy_color(cur_color), cur_depth + 1, not isMax,
                     alpha, beta, True)
-            ai_gui.add_score(score, cur_depth - g_move_num + 1, isMax)
+            if g_show_steps:
+                ai_gui.add_score(score, cur_depth - g_move_num + 1, isMax)
             return score, None
 
         if isMax:
@@ -64,9 +67,11 @@ def minimax(board, cur_minimax_color):
                     if g_show_steps and len(valid_moves) - 1 > i:
                         board_copy2 = copy.deepcopy(cur_board)
                         make_move(board_copy2, valid_moves[i + 1], cur_color)
-                        ai_gui.add_minimax_board(board_copy2, cur_depth - g_move_num + 1, not isMax, True)
+                        if g_show_steps:
+                            ai_gui.add_minimax_board(board_copy2, cur_depth - g_move_num + 1, not isMax, True)
                     break
-            ai_gui.add_score(alpha, cur_depth - g_move_num + 1, isMax)
+            if g_show_steps:
+                ai_gui.add_score(alpha, cur_depth - g_move_num + 1, isMax)
             return alpha, alpha_move
         else:
             # if g_show_steps:
@@ -86,9 +91,11 @@ def minimax(board, cur_minimax_color):
                     if g_show_steps and len(valid_moves) - 1 > i:
                         board_copy2 = copy.deepcopy(cur_board)
                         make_move(board_copy2, valid_moves[i + 1], cur_color)
-                        ai_gui.add_minimax_board(board_copy2, cur_depth - g_move_num + 1, not isMax, True)
+                        if g_show_steps:
+                            ai_gui.add_minimax_board(board_copy2, cur_depth - g_move_num + 1, not isMax, True)
                     break
-            ai_gui.add_score(beta, cur_depth - g_move_num + 1, isMax)
+            if g_show_steps:
+                ai_gui.add_score(beta, cur_depth - g_move_num + 1, isMax)
             return beta, beta_move
 
     if g_show_steps:
