@@ -1,5 +1,5 @@
 ## Othello AI
-Game othello ini mengimlementasikan N-player minimax dan alpha-beta prunning. 
+Game othello ini mengimplementasikan AI minimax dan alpha-beta prunning. 
 
 ## Run instructions
 - Clone github ini di device anda, dengan cara
