@@ -2,6 +2,7 @@
 from base_game import *
 import ai
 import othello_board
+import tutorial_gui
 
 
 print("Input board size")
@@ -34,6 +35,7 @@ g_move_num = 0
 agent = {WHITE: "Player", BLACK: "Minimax"}  # Naive, Player, Minimax
 # agent = {WHITE: "Minimax", BLACK: "Player"}  # Naive, Player, Minimax
 othello_board.init(g_board)
+tutorial_gui.init()
 while True:
     g_move_num += 1
     g_valid_moves = get_valid_moves(g_board, cur_color)

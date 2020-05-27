@@ -65,9 +65,9 @@ def refresh_board(board, valid_moves, cur_color):
                 g_canvas.create_oval(sx - 25, sy - 25, sx + 25, sy + 25, fill='WHITE')
             elif (i, j) in move_coords:
                 if g_cur_color == BLACK:
-                    color = "#242"
+                    color = "#151"
                 else:
-                    color = "#ada"
+                    color = "#4b4"
                 g_canvas.create_oval(sx - 25, sy - 25, sx + 25, sy + 25, fill=color)
             else:
                 g_canvas.create_rectangle(sx - 30, sy - 30, sx + 30, sy + 30, width=0, fill='DARKGREEN')
